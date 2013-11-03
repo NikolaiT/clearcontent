@@ -102,6 +102,11 @@ div[id="main"] {
 	font-size: 18px;
 }
 
+/* Footer widgets shold have white font color */
+#wp-calendar {
+	color: #fff;
+}
+
 /* =Search form. Currently not used.
 ----------------------------------------------- */
 form[role="search"] input.search-submit {
@@ -265,7 +270,7 @@ span.separator {
 }
 #commentform {
    margin-top: 20px;
-   padding: 20px 10px;
+   padding: 15px 15px 0px;
    background-color: #f6f6f6;
 }
 
@@ -299,16 +304,21 @@ ol.comment-list .depth-1 {
 }
 
 .children .depth-3 {
-	background-color: #E6E6E6;
+	background-color: #D6D6D6;
 }
 
 .comment-list .comment-body {
-	margin: 15px 0 5px;
+	margin: 0px 0 5px;
 	padding: 10px 5px 10px 10px;
 }
 
 .comment-list li {
-	margin: 15px 0 5px;
+	margin: 15px 0 15px;
+	padding: 10px 20px 20px 10px;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border: 1px solid #ccc;
 }
 
 ol.comment-list ul.children {
