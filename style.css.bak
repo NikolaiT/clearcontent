@@ -1,0 +1,1062 @@
+/*
+Theme Name: clearcontent
+Theme URI: http://incolumitas.com
+Description: Clear and very light WP theme with basic functionality. It's main purpose is to learn
+	about wordpress. Never versions of this theme are inspired by _s and other sources. This theme is not
+	built entirely on frameworks like twitter bootstrap or _s. But I will definitely copy ideas and pieces of
+	code from these projects into Baumkrone.
+Author: Nikolai Tschacher, 2012/2013
+Author URI: http://incolumitas.com
+Version: 0.1
+Tags: simple, leightweight, blue, white, images. header, front-page
+
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+
+clearcontent is based on Underscores http://underscores.me/, (C) 2012-2013 Automattic, Inc.
+
+*/
+
+
+/*
+ 
+    CSS TABLE OF CONTENTS
+
+    1. Reset CSS by Eric Meyer.
+    2. Global CSS using mostly element selectors.
+    3. Specific styles for classes/ids.
+
+*/
+
+
+
+/* 1. Reset
+-------------------------------------------------------------- */
+
+/*
+    Resetting and rebuilding styles have been helped along thanks to the fine work of
+    Eric Meyer http://meyerweb.com/eric/tools/css/reset/index.html
+    along with Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
+    and Blueprint http://www.blueprintcss.org/
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+   border: 0;
+   font-family: inherit;
+   font-size: 100%;
+   font-style: inherit;
+   font-weight: inherit;
+   margin: 0;
+   outline: 0;
+   padding: 0;
+   vertical-align: baseline;
+}
+html {
+   font-size: 62.5%; /* Corrects text resizing oddly in IE6/7 when body font-size is set using em units http://clagnut.com/blog/348/#c790 */
+   overflow-y: scroll; /* Keeps page centred in all browsers regardless of content height */
+   -webkit-text-size-adjust: 100%; /* Prevents iOS text size adjust after orientation change, without disabling user zoom */
+   -ms-text-size-adjust: 100%; /* www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/ */
+}
+body {
+   background: #fff;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+nav,
+section {
+   display: block;
+}
+ol, ul {
+   list-style: none;
+}
+table { /* tables still need 'cellspacing="0"' in the markup */
+   border-collapse: separate;
+   border-spacing: 0;
+}
+caption, th, td {
+   font-weight: normal;
+   text-align: left;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+   content: "";
+}
+blockquote, q {
+   quotes: "" "";
+}
+a:focus {
+   outline: thin dotted;
+}
+a:hover,
+a:active { /* Improves readability when focused and also mouse hovered in all browsers people.opera.com/patrickl/experiments/keyboard/test */
+   outline: 0;
+}
+a img {
+   border: 0;
+}
+
+
+/* 2. Global CSS
+----------------------------------------------- */
+
+body,
+button,
+input,
+select,
+textarea {
+   font-family: 'Open Sans', sans-serif;
+   font-size: 1.8rem;
+   color: #000;
+   font-weight: 300;
+}
+
+/* Headings */
+h1,h2,h3,h4,h5,h6 {
+   clear: both;
+}
+/* specify the fall-back using px */
+h1 { 
+   font-size: 24px;
+   font-size: 2.4rem;
+   margin-bottom: 3.6rem;
+}
+h2 { 
+   font-size: 21px;
+   font-size: 2.1rem;
+   margin-bottom: 3rem;
+}
+h3 {
+   font-size: 18px;
+   font-size: 1.8rem; 
+   margin-bottom: 2rem;
+}
+
+
+hr {
+   background-color: #ccc;
+   border: 0;
+   height: 1px;
+   margin-bottom: 1.5em;
+}
+
+/* Text elements */
+p, .entry-content ul {
+   margin-bottom: 2rem;
+   font-size: 1.4rem;
+   font-size: 14px;
+   font-family: 'Open Sans', sans-serif;
+   line-height: 2.8rem;
+   color: #656565;
+   font-weight: 200;
+}
+ul, ol {
+   margin: 0 0 1.5em 3em;
+   font-size: 1.8rem;
+   font-size: 18px;
+}
+ul {
+   list-style: disc;
+}
+ol {
+   list-style: decimal;
+}
+li > ul,
+li > ol {
+   margin-bottom: 0;
+   margin-left: 1.5em;
+}
+dt {
+   font-weight: bold;
+}
+dd {
+   margin: 0 1.5em 1.5em;
+}
+b, strong {
+   font-weight: bold;
+}
+dfn, cite, em, i {
+   font-style: italic;
+}
+blockquote {
+   margin: 0 1.5em;
+}
+address {
+   margin: 0 0 1.5em;
+}
+pre {
+   background: #eee;
+   font-family: "Courier 10 Pitch", Courier, monospace;
+   font-size: 15px;
+   font-size: 1.5rem;
+   line-height: 1.6;
+   margin-bottom: 1.6em;
+   padding: 1.6em;
+   overflow: auto;
+   max-width: 100%;
+}
+code, kbd, tt, var {
+   font: 15px Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+}
+abbr, acronym {
+   border-bottom: 1px dotted #666;
+   cursor: help;
+}
+mark, ins {
+   background: #fff9c0;
+   text-decoration: none;
+}
+sup,
+sub {
+   font-size: 75%;
+   height: 0;
+   line-height: 0;
+   position: relative;
+   vertical-align: baseline;
+}
+sup {
+   bottom: 1ex;
+}
+sub {
+   top: .5ex;
+}
+small {
+   font-size: 75%;
+}
+big {
+   font-size: 125%;
+}
+figure {
+   margin: 0;
+}
+table {
+   margin: 0 0 1.5em;
+   width: 100%;
+}
+th {
+   font-weight: bold;
+}
+img {
+   height: auto; /* Make sure images are scaled correctly. */
+   max-width: 100%; /* Adhere to container width. */
+}
+button,
+input,
+select,
+textarea {
+   font-size: 100%; /* Corrects font size not being inherited in all browsers */
+   margin: 0; /* Addresses margins set differently in IE6/7, F3/4, S5, Chrome */
+   vertical-align: baseline; /* Improves appearance and consistency in all browsers */
+   *vertical-align: middle; /* Improves appearance and consistency in all browsers */
+}
+button,
+input {
+   line-height: normal; /* Addresses FF3/4 setting line-height using !important in the UA stylesheet */
+}
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+   padding: .5em 2em .4em;
+   width: 120px;
+   border: 1px solid #ccc;
+   border-color: #ccc #ccc #bbb #ccc;
+   border-radius: 3px;
+   background: #1770F5;
+   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 15px 17px rgba(255, 255, 255, 0.5), inset 0 -5px 12px rgba(0, 0, 0, 0.05);
+   color: rgba(255, 255, 255, 1);
+   cursor: pointer; /* Improves usability and consistency of cursor style between image-type 'input' and others */
+   -webkit-appearance: button; /* Corrects inability to style clickable 'input' types in iOS */
+   font-size: 14px;
+   font-size: 1.4rem;
+   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+   
+   /*Gradient*/
+   background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+   background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+   background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+   background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+   background-image: linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+
+   /*Shadow*/
+   -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+   -moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+   
+   /*Transition*/
+   -webkit-transition: All 0.5s ease;
+   -moz-transition: All 0.5s ease;
+   -o-transition: All 0.5s ease;
+   -ms-transition: All 0.5s ease;
+   transition: All 0.5s ease;
+}
+button:hover,
+html input[type="button"]:hover,
+input[type="reset"]:hover,
+input[type="submit"]:hover {
+   background: #3884f6;
+   border-color: #ccc #bbb #aaa #bbb;
+}
+button:focus,
+html input[type="button"]:focus,
+input[type="reset"]:focus,
+input[type="submit"]:focus,
+button:active,
+html input[type="button"]:active,
+input[type="reset"]:active,
+input[type="submit"]:active {
+   border-color: #aaa #bbb #bbb #bbb;
+   box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.5), inset 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+input[type="checkbox"],
+input[type="radio"] {
+   box-sizing: border-box; /* Addresses box sizing set to content-box in IE8/9 */
+   padding: 0; /* Addresses excess padding in IE8/9 */
+}
+input[type="search"] {
+   -webkit-appearance: textfield; /* Addresses appearance set to searchfield in S5, Chrome */
+   -webkit-box-sizing: content-box; /* Addresses box sizing set to border-box in S5, Chrome (include -moz to future-proof) */
+   -moz-box-sizing:   content-box;
+   box-sizing:   content-box;
+}
+input[type="search"]::-webkit-search-decoration { /* Corrects inner padding displayed oddly in S5, Chrome on OSX */
+   -webkit-appearance: none;
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner { /* Corrects inner padding and border displayed oddly in FF3/4 www.sitepen.com/blog/2008/05/14/the-devils-in-the-details-fixing-dojos-toolbar-buttons/ */
+   border: 0;
+   padding: 0;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+textarea {
+   color: #666;
+   border: 1px solid #ccc;
+   border-radius: 3px;
+
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+textarea:focus {
+   color: #111;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"] {
+   padding: 1.0rem;
+   padding: 10px;
+   width: 60%;
+   color: #666;
+   border: 1px solid #ccc;
+   border-radius: 3px;
+}
+textarea {
+   overflow: auto; /* Removes default vertical scrollbar in IE6/7/8/9 */
+   margin: 2rem 0;
+   padding-left: 2px;
+   vertical-align: top; /* Improves readability and alignment in all browsers */
+   width: 99%;
+}
+
+/* Styling links */
+a {
+   text-decoration: none;
+   color: #1770F5;
+}
+a:visited {
+   color: #1770F5;
+}
+a:hover,
+a:focus,
+a:active {
+   text-decoration: underline;
+}
+
+/* Alignment */
+.alignleft {
+   display: inline;
+   float: left;
+   margin-right: 1.5em;
+}
+.alignright {
+   display: inline;
+   float: right;
+   margin-left: 1.5em;
+}
+.aligncenter {
+   clear: both;
+   display: block;
+   margin: 0 auto;
+}
+
+/* Text meant only for screen readers */
+.screen-reader-text {
+   clip: rect(1px, 1px, 1px, 1px);
+   position: absolute !important;
+}
+
+.screen-reader-text:hover,
+.screen-reader-text:active,
+.screen-reader-text:focus {
+   padding: 15px 23px 14px;
+   top: 5px;
+   width: auto;
+   z-index: 100000; /* Above WP toolbar */
+   background-color: #f1f1f1;
+   border-radius: 3px;
+   box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+   clip: auto !important;
+   color: #21759b;
+   display: block;
+   font-size: 14px;
+   font-weight: bold;
+   height: auto;
+   left: 5px;
+   line-height: normal;
+   text-decoration: none;
+}
+
+/* Clearing */
+.clear:before,
+.clear:after,
+[class*="content"]:before,
+[class*="content"]:after,
+[class*="site"]:before,
+[class*="site"]:after {
+   content: '';
+   display: table;
+}
+
+.clear:after,
+[class*="content"]:after,
+[class*="site"]:after {
+   clear: both;
+}
+
+/* 3. Sspecific selectors, high cascading level.
+----------------------------------------------- */
+
+
+/* The whole Header, especially the branding.
+----------------------------------------------- */
+.site-header {
+   background: #222222;
+}
+.header-wrapper {
+   margin: 0 auto;
+   width: 68%;
+   clear: both;
+}
+.site-branding {
+}
+.site-title > a,
+.site-title > a:hover,
+.site-title > a:active,
+.site-title > a:visited {
+   color: #1770F5;
+   text-decoration: none;
+   font-family: 'Quicksand', sans-serif;
+   font-size: 80px;
+   font-size: 8rem;
+   text-transform: uppercase;
+}
+
+.site-description {
+   padding-top: 2rem;
+   font-size: 21px;
+   font-size: 2.1rem;
+   font-family: 'Quicksand', sans-serif;
+   color: #fff;
+   text-transform: uppercase;
+}
+
+/* The header slideshow
+----------------------------------------------- */
+.header-slideshow { 
+   position: relative;
+   margin: 0 auto;
+   width: 100%;
+   overflow: auto;
+}
+.header-slideshow li { 
+   list-style: none; 
+   width: 300px;
+   height: 400px;
+}
+.header-slideshow ul li { 
+   float: left; 
+   background-size: 100%;
+   background-repeat: no-repeat;
+}
+
+/* =Social Media icons
+----------------------------------------------- */
+.header-icons {
+   position: absolute;
+   top: 8rem;
+   right: 18rem;
+}
+.header-icons a {
+   padding-right: 1.4rem;
+   padding-right: 14px;
+}
+.header-icons img:hover {
+}
+
+/* =Menu
+----------------------------------------------- */
+
+.main-navigation {
+   padding-bottom: 32px;
+   padding-bottom: 3.2rem;
+   clear: both;
+   display: block;
+   float: right;
+   width: auto;
+   text-transform: uppercase;
+   font-weight: 300;
+}
+.main-navigation ul {
+   list-style: none;
+   margin: 0;
+   padding-left: 0;
+}
+.main-navigation li {
+   float: left;
+   position: relative;
+   margin-right: 3rem;
+}
+.main-navigation li ul {
+   padding: 1.6rem 0 0;
+   text-transform: none;
+   background: rgb(0, 0, 0) transparent; /* default fallback */
+   background: rgba(0, 0, 0, 0.8);
+   /* IE quirks as spotted at http://davidshariff.com/blog/css-transparent-background/ */
+   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF); /* IE 6/7 */
+   -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CCFFFFFF, endColorstr=#CCFFFFFF)"; /* IE8 */
+}
+.main-navigation a {
+   display: block;
+   padding: 0.4rem 1rem;
+   text-decoration: none;
+   color: #bbb;
+}
+.main-navigation ul ul {
+   float: left;
+   position: absolute;
+   top: 1.5em;
+   left: 0;
+   z-index: 99999;
+   display: none;
+   font-size: 1.6rem;
+   font-size: 16px;
+   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+}
+.main-navigation ul li li {
+   margin: 0;
+   border-bottom: 1px solid #505050;
+   
+}
+.main-navigation ul li li > a {
+   padding: 0.99rem 1.2rem;
+}
+.main-navigation ul ul ul {
+   left: 100%;
+   top: 0;
+}
+.main-navigation ul ul a {
+   width: 160px;
+}
+.main-navigation li:hover > a {
+   color: #fff;
+}
+.main-navigation ul ul :hover > a {
+}
+.main-navigation ul ul a:hover {
+}
+.main-navigation ul li:hover > ul {
+   display: block;
+}
+/* Target the li element, not the a element, otherwise the whole dropdown
+   menu has a left border.
+*/
+.main-navigation li.current_page_item,
+.main-navigation li.current-menu-item {
+   border-left: 2px solid #1770F5;
+}
+
+.main-navigation li li.current_page_item a,
+.main-navigation li li.current-menu-item a {
+   background-color: #1770F5;
+   border: none;
+}
+
+/* Small menu */
+.menu-toggle {
+   display: none;
+   cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+   .menu-toggle,
+   .main-navigation.toggled .nav-menu {
+   display: block;
+   }
+
+   .main-navigation ul {
+   display: none;
+   }
+}
+
+/* =Page Header
+----------------------------------------------- */
+.page-header {
+   padding-bottom: 4rem;
+   padding-bottom: 40px;
+}
+h1.page-title {
+   font-size: 44px;
+   font-size: 4.4rem;
+}
+
+/* =Site Title
+----------------------------------------------- */
+.site-title {
+   font-size: 54px;
+   font-size: 5.4rem;
+   padding-top: 4rem;
+}
+
+.site-title a {
+   text-decoration: none;
+}
+
+/* =Content
+----------------------------------------------- */
+
+.entry-header {
+   padding-bottom: 1.6rem;
+   padding-bottom: 16px;
+}
+.sticky {
+}
+.hentry {
+   margin: 0 0 2.5em;
+}
+.byline,
+.updated {
+   display: none;
+}
+.single .byline,
+.group-blog .byline {
+   display: block;
+}
+a.readmore {
+   margin: 2rem 0;
+   padding: 3px 8px 3px;
+   float: right;
+   border: 1px solid #1770F5;
+   width: 9rem;
+   width: 90px;
+   color: #fff;
+   display: inline-block;
+   -webkit-border-radius: 3px;
+   -moz-border-radius: 3px;
+   border-radius: 3px;
+   background: #1770F5;
+   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+   font-size: 1.6rem;
+   font-size: 16px;
+   text-align: center;
+   
+   /*Transition*/
+   -webkit-transition: All 0.5s ease;
+   -moz-transition: All 0.5s ease;
+   -o-transition: All 0.5s ease;
+   -ms-transition: All 0.5s ease;
+   transition: All 0.5s ease;
+}
+a.readmore:hover {
+   text-decoration: none;
+   background: #488ef7;
+   
+}
+.entry-meta .byline {
+   padding: 0.5rem 0.5rem 0.5rem 0rem;
+   border-bottom: .0825em solid #ccc;
+   margin-bottom: 1.2rem;
+}
+footer.entry-meta {
+   padding: 0 0;
+   font-size: 16px;
+   font-size: 1.6rem;
+   color: #999;
+}
+.entry-meta span {
+   padding-right: 3rem;
+   text-transform: uppercase;
+   font-size: 16px;
+   font-size: 1.6rem;
+   color: #999;
+}
+.entry-meta span a {
+    text-transform: none;
+}
+.page-content,
+.entry-content,
+.entry-summary {
+   margin: 1.5em 0 0;
+}
+.page-links {
+   clear: both;
+   margin: 0 0 1.5em;
+}
+.entry-title {
+   font-size: 34rem;
+   font-size: 34px;
+}
+
+.entry-title > a {
+   text-decoration: none;
+   color: #000;
+}
+.entry-title > a:visited {
+   color: #000;
+}
+.entry-title > a:hover,
+.entry-title > a:focus,
+.entry-title > a:active {
+   color: #000;
+   text-decoration: none;
+}
+.entry-title {
+   margin-bottom: 2rem;
+   line-height: 4rem;
+}
+#reply-title {
+   font-size: 3.4rem;
+   font-size: 34px;
+}
+.taxonomy-description {
+   padding: 3rem 3rem;
+   background: #f6f6f6;
+}
+.taxonomy-description p {
+   word-spacing: 0.3rem;
+   font-size: 2.2rem;
+   font-size: 22px;
+   font-style: oblique;
+}
+.taxonomy-description p:before {
+    content: '“';
+}
+.taxonomy-description p:after {
+    content: '“';
+}
+/* =Post Content
+----------------------------------------------- */
+.post {
+   margin-bottom: 6rem;
+   padding-bottom: 4rem;
+   padding-bottom: 40px;
+   border-bottom: 1px solid #ccc;
+}
+
+/* =Asides
+----------------------------------------------- */
+
+.blog .format-aside .entry-title,
+.archive .format-aside .entry-title {
+   display: none;
+}
+
+
+/* =Media
+----------------------------------------------- */
+
+.page-content img.wp-smiley,
+.entry-content img.wp-smiley,
+.comment-content img.wp-smiley {
+   border: none;
+   margin-bottom: 0;
+   margin-top: 0;
+   padding: 0;
+}
+.wp-caption {
+   border: 1px solid #ccc;
+   margin-bottom: 1.5em;
+   max-width: 100%;
+}
+.wp-caption img[class*="wp-image-"] {
+   display: block;
+   margin: 1.2% auto 0;
+   max-width: 98%;
+}
+.wp-caption-text {
+   text-align: center;
+}
+.wp-caption .wp-caption-text {
+   margin: 0.8075em 0;
+}
+.site-content .gallery {
+   margin-bottom: 1.5em;
+}
+.gallery-caption {
+}
+.site-content .gallery a img {
+   border: none;
+   height: auto;
+   max-width: 90%;
+}
+.site-content .gallery dd {
+   margin: 0;
+}
+.site-content .gallery-columns-4 .gallery-item {
+}
+.site-content .gallery-columns-4 .gallery-item img {
+}
+
+/* Make sure embeds and iframes fit their containers */
+embed,
+iframe,
+object {
+   max-width: 100%;
+}
+
+
+/* =Navigation
+----------------------------------------------- */
+
+.site-content [class*="navigation"] {
+   margin: 0 0 1.5em;
+   overflow: hidden;
+}
+[class*="navigation"] .nav-previous {
+   float: left;
+   width: 50%;
+}
+[class*="navigation"] .nav-next {
+   float: right;
+   text-align: right;
+   width: 50%;
+}
+
+/* =Comments
+----------------------------------------------- */
+
+.comment-body {
+   margin-bottom: 2rem;
+}
+#commentform {
+   margin-top: 2rem;
+   padding: 2rem 2rem;
+   padding-bottom: 6rem;
+   background-color: #f6f6f6;
+}
+#commentform * label {
+   margin-right: 2rem;
+}
+#commentform p {
+    margin-bottom: 3.6rem;
+    margin-bottom: 36px;
+}
+#commentform input,
+#commentform textarea {
+    font-size: 2rem;
+    font-size: 20px;
+}
+#commentform input {
+    float: right;
+    padding: 1.4rem;
+    padding: 14px;
+}
+#commentform textarea {
+    width: 96%;
+    padding: 1.4rem;
+    padding: 14px;
+}
+.comment-content a {
+   word-wrap: break-word;
+}
+#commentform input#submit {
+   width: 18rem;
+   width: 180px;
+   padding: 1.0rem;
+   padding: 10px;
+   font-size: 1.4rem;
+   font-size: 14px;
+}
+.bypostauthor {
+}
+
+.comment-metadata {
+   margin: 1rem 0;
+}
+
+/* =Widgets
+----------------------------------------------- */
+
+.widget-area {
+   padding-left: 4rem;
+}
+
+.widget-area ul li {
+    font-size: 1.6rem;
+    font-size: 16px;
+}
+
+.widget {
+   margin: 0 0 1.5em;
+}
+
+.widget h1,
+.widget h2 {
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+}
+/* Make sure select elements fit in widgets */
+.widget select {
+   max-width: 100%;
+}
+
+/* Search widget */
+.widget_search .search-submit {
+   display: inline;
+}
+
+.widget-area ul {
+   list-style: none;
+}
+
+.widget ul {
+   list-style: none;
+   padding: 0;
+   margin: 0 4rem;
+}
+
+.widget-area li {
+   padding-bottom: 0.5rem;
+}
+
+input.search-field {
+   margin-right: 2rem;
+   padding: 0.8rem;
+   font-size: 14px;
+   width: 18rem;
+   width: 180px;
+}
+
+input.searach-submit {
+}
+
+/* Search form */
+.search-form {
+   width: 100%;
+}
+
+
+/* =Infinite Scroll
+----------------------------------------------- */
+
+/* Globally hidden elements when Infinite Scroll is supported and in use. */
+.infinite-scroll .paging-navigation, /* Older / Newer Posts Navigation (always hidden) */
+.infinite-scroll.neverending .site-footer { /* Theme Footer (when set to scrolling) */
+   display: none;
+}
+
+/* When Infinite Scroll has reached its end we need to re-display elements that were hidden (via .neverending) before */
+.infinity-end.neverending .site-footer {
+   display: block;
+}
+
+/* =The Footer
+----------------------------------------------- */
+.site-info {
+   padding-bottom: 2rem;
+   color: #fff;
+   font-size: 14px;
+   font-size: 1.4rem;
+   text-align: center;
+}
+
+/* Footer widgets */
+.footer-sidebar {
+   display:block;
+   height: 250px;
+}
+.footer-widget {
+    margin-right: 10rem;
+    margin-right: 100px;
+}
+#footer-sidebar1 {
+   float: left;
+   width: 300px;
+}
+
+#footer-sidebar2 {
+   float: left;
+   width: 300px;
+}
+
+#footer-sidebar3 {
+   float: left;
+   width: 300px;
+}
+
+/*
+   LAYOUT
+   Layout: Content-Sidebar-Sidebar
+*/
+
+.content-area {
+   float: left;
+   width: 66%;
+}
+.site-content {
+   padding: 0% 6% 4% 0%;
+   max-width: 1000px;
+   border-right: 1px solid #ccc;
+}
+.site-main {
+   padding-top: 2%;
+   margin: 0 auto;
+   width: 1180px;
+}
+.site-main .widget-area {
+   float: right;
+   width: 30%;
+   overflow: hidden;
+}
+.site-footer {
+   clear: both;
+   width: 100%;
+   padding-top: 3rem;
+   padding-top: 30px;
+   background-color: #222222;
+   color: #fff;
+}
+.footer-wrapper {
+   margin: 0 auto;
+   width: 74%;
+   clear: both;
+}
+/* END LAYOUT */

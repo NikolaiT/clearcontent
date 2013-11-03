@@ -1,0 +1,339 @@
+/*
+Theme Name: clearcontent2
+Theme URI: http://incolumitas.com
+Description: Clear and very light WP theme with basic functionality. It's main purpose is to learn
+	about wordpress. Never versions of this theme are inspired by _s and other sources. This theme is not
+	built entirely on frameworks like twitter bootstrap or _s. But I will definitely copy ideas and pieces of
+	code from these projects into Baumkrone.
+Author: Nikolai Tschacher, 2012/2013 (Last update: 1.11.2013)
+Author URI: http://incolumitas.com
+Version: 0.2
+Tags: simple, leightweight, blue, white, images. header, front-page
+
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+
+clearcontent is based on Underscores http://underscores.me/, (C) 2012-2013 Automattic, Inc.
+and
+bootstrap.
+
+*/
+
+@import url('bootstrap/css/bootstrap.min.css');
+
+.site-footer {
+	background: #222;
+}
+
+.navbar {
+	padding: 30px 0;
+}
+
+/* Disable wordpress toggle "Skip to menu" */
+.menu-toggle {
+	display: none;
+	cursor: pointer;
+}
+
+.screen-reader-text {
+	display: none;
+}
+
+/* The whole main wrapper.
+----------------------------------------------- */
+div[id="main"] {
+	padding: 20px 0;
+}
+
+/* The whole Header, especially the branding.
+----------------------------------------------- */
+#heading,
+#heading:hover,
+#heading:active,
+#heading:visited {
+	padding-bottom: 50px;
+	color: #1770F5;
+	text-decoration: none;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 68px;
+	text-transform: uppercase;
+}
+
+.site-description {
+	font-size: 16px;
+	font-family: 'Quicksand', sans-serif;
+	color: #fff;
+	text-transform: uppercase;
+}
+
+/* =Social Media icons
+----------------------------------------------- */
+.header-icons a {
+   padding-right: 6px;
+}
+
+/* =The Footer
+----------------------------------------------- */
+.site-footer {
+	padding: 20px 0;
+	font-size: 16px;
+	color: #fff;
+}
+
+.site-info {
+	padding-top: 20px;
+	padding-bottom: 10px;
+	font-size: 12px;
+}
+
+
+/* =Widgets
+----------------------------------------------- */
+.widget h1,
+.widget h2 {
+	margin-bottom: 10px;
+	text-transform: uppercase;
+	font-size: 20px;
+}
+
+#wp-calendar caption {
+	text-align: left;
+	font-size: 18px;
+}
+
+/* =Search form. Currently not used.
+----------------------------------------------- */
+form[role="search"] input.search-submit {
+   padding: 5px 0;
+   width: 80px;
+   border: 1px solid #ccc;
+   border-color: #ccc #ccc #bbb #ccc;
+   border-radius: 3px;
+   background: #1770F5;
+   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 15px 17px rgba(255, 255, 255, 0.5), inset 0 -5px 12px rgba(0, 0, 0, 0.05);
+   color: rgba(255, 255, 255, 1);
+   cursor: pointer; /* Improves usability and consistency of cursor style between image-type 'input' and others */
+   -webkit-appearance: button; /* Corrects inability to style clickable 'input' types in iOS */
+   font-size: 12px;
+   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+   text-align: center;
+   
+   /*Gradient*/
+   background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+   background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+   background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+   background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+   background-image: linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+
+   /*Shadow*/
+   -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+   -moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+   
+   /*Transition*/
+   -webkit-transition: All 0.5s ease;
+   -moz-transition: All 0.5s ease;
+   -o-transition: All 0.5s ease;
+   -ms-transition: All 0.5s ease;
+   transition: All 0.5s ease;
+}
+
+form[role="search"] input.search-submit:hover,
+form[role="search"] input.search-submit:active {
+   background: #3884f6;
+   border-color: #aaa #bbb #bbb #bbb;
+   box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.5), inset 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* =Content
+----------------------------------------------- */
+
+/* The navigation between list of blog posts */
+.nav-previous {
+	padding: 20px 0;
+}
+
+.entry-header {
+   padding-bottom: 16px;
+}
+
+article[id*="post"] > div {
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 20px;
+}
+
+a.readmore {
+   padding: 3px 8px 3px;
+   float: right;
+   border: 1px solid #1770F5;
+   width: 110px;
+   color: #fff;
+   display: inline-block;
+   -webkit-border-radius: 3px;
+   -moz-border-radius: 3px;
+   border-radius: 3px;
+   background: #1770F5;
+   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+   -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+   font-size: 14px;
+   text-align: center;
+   
+   /*Transition*/
+   -webkit-transition: All 0.5s ease;
+   -moz-transition: All 0.5s ease;
+   -o-transition: All 0.5s ease;
+   -ms-transition: All 0.5s ease;
+   transition: All 0.5s ease;
+}
+a.readmore:hover {
+   text-decoration: none;
+   background: #488ef7;
+   
+}
+footer.entry-meta {
+   padding: 0 0;
+   font-size: 16px;
+   color: #999;
+}
+span.separator {
+	padding: 0 10px;
+}
+.entry-meta span {
+   text-transform: uppercase;
+   font-size: 14px;
+   color: #999;
+}
+.entry-meta span a {
+    text-transform: none;
+}
+.page-content,
+.entry-content,
+.entry-summary {
+   padding: 10px 0;
+}
+.page-links {
+   clear: both;
+   margin: 0 0 1.5em;
+}
+.entry-title {
+   font-size: 30px;
+}
+
+.entry-title > a {
+   text-decoration: none;
+   color: #000;
+}
+.entry-title > a:visited {
+   color: #000;
+}
+.entry-title > a:hover,
+.entry-title > a:focus,
+.entry-title > a:active {
+   color: #000;
+   text-decoration: none;
+}
+.entry-title {
+   padding-bottom: 20px;
+   line-height: 40px;
+}
+#reply-title {
+   font-size: 30px;
+}
+.taxonomy-description {
+   padding: 30px 30px;
+   background: #f6f6f6;
+}
+.taxonomy-description p {
+   word-spacing: 3px;
+   font-size: 20px;
+   font-style: oblique;
+}
+.taxonomy-description p:before {
+    content: '“';
+}
+.taxonomy-description p:after {
+    content: '“';
+}
+
+/* =Comment Form
+----------------------------------------------- */
+
+.comment-body {
+   margin-bottom: 20px;
+}
+#commentform {
+   margin-top: 20px;
+   padding: 20px 10px;
+   background-color: #f6f6f6;
+}
+
+#commentform p {
+    margin-bottom: 40px;
+}
+#commentform input,
+#commentform textarea {
+    font-size: 14px;
+}
+.comment-content a {
+   word-wrap: break-word;
+}
+
+.comment-respond {
+	margin: 20px 0;
+}
+
+/* =Comment Listings
+----------------------------------------------- */
+
+ol.comment-list, ul.children {
+	list-style-type: none;
+}
+ol.comment-list .depth-1 {
+	background-color: #F6F6F6;
+}
+
+.children .depth-2 {
+	background-color: #E6E6E6;
+}
+
+.children .depth-3 {
+	background-color: #E6E6E6;
+}
+
+.comment-list .comment-body {
+	margin: 15px 0 5px;
+	padding: 10px 5px 10px 10px;
+}
+
+.comment-list li {
+	margin: 15px 0 5px;
+}
+
+ol.comment-list ul.children {
+	//border: 1px solid #ccc;
+}
+
+.comment-content {
+	padding: 12px 0;
+}
+
+.comment-meta cite[class="fn"] {
+	font-size: 18px;
+	font-weight: bolder;
+}
+
+.comment-meta {
+	font-weight: bold;
+}
+
+.comment-metadata {
+	padding-top: 5px;
+}
+
+h2.comments-title{
+	font-size: 22px;
+}
+
+
