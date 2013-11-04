@@ -172,24 +172,18 @@ if ( ! function_exists( 'clearcontent_post_meta' ) ) :
  *  $show = array( 'byline' => True, 'post_date' => True, 'comments' => True, 'posted-in' => True, 'tags' => True)
  * 
  * If $echosep if true, echo a separator.
+ * 
+ * By the way. This function is completely broken and totally rubbish. It's a fucking pain in the ass and 
+ * demonstrates how I fucking suck at PHP, how PHP fucking sucks and how everything that mangles HTML, CSS and a programming
+ * language together fucking sucks.
  */
-function clearcontent_post_meta( $show = array( 'byline' => False, 'post_date' => False, 'comments' => False, 'posted-in' => False, 'tags' => False) , $echosep=False) {
-	$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time>';
-	if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) )
-		$time_string .= '<time class="updated" datetime="%3$s">%4$s</time>';
-
-	$time_string = sprintf( $time_string,
-		esc_attr( get_the_date( 'c' ) ),
-		esc_html( get_the_date() ),
-		esc_attr( get_the_modified_date( 'c' ) ),
-		esc_html( get_the_modified_date() )
-	);
-	
+function clearcontent_post_meta( $show = array( 'byline' => False, 'post_date' => False, 'modified_date' => False, 'comments' => False, 'posted-in' => False, 'tags' => False) , $echosep=False) {
+		
 	/* Echo only a seperator if the next entity is printed out. */
 	$separator = '-';
 	$get_sep = create_function('$key, $array, $sep, $echosep', '$val = clearcontent_next_element_by_key($key, $array); if($val || $echosep) { return "<span class=\"separator\">$sep</span>"; }');
         
-        if ( isset($show['byline']) && $show['byline'] == true) {
+        if ( isset($show['byline']) && $show['byline'] == true ) {
             printf( '<span class="byline">By <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a>%4$s</span></span>',
                     esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ),
                     esc_attr( sprintf( __( 'View all posts by %s', 'clearcontent' ), get_the_author() ) ),
@@ -199,13 +193,38 @@ function clearcontent_post_meta( $show = array( 'byline' => False, 'post_date' =
         }
 
         if ( isset($show['post_date']) && $show['post_date'] == true ) {
-            printf( '<span class="posted-on">Posted on <a href="%1$s" title="%2$s" rel="bookmark">%3$s</a>%4$s</span>',
-                    esc_url( get_permalink() ),
-                    esc_attr( get_the_time() ),
-                    $time_string,
-                    $get_sep('post_date', $show, $separator, $echosep)
-            );
-        }
+			$time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time>';
+			$time_string = sprintf( $time_string,
+				esc_attr( get_the_date( 'c' ) ),
+				esc_html( get_the_date() )
+			);
+			
+			printf(
+				'<span class="posted-on">Posted on <a href="%1$s" title="%2$s" rel="bookmark">%3$s</a></span>%4$s',
+				esc_url( get_permalink() ),
+				esc_attr( get_the_time() ),
+				$time_string,
+				$get_sep('post_date', $show, $separator, $echosep)
+			);
+		}
+
+		if ( isset($show['modified_date']) && $show['modified_date'] == true ) {
+			if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
+				$updated = '<time class="updated" datetime="%1$s">%2$s</time>';
+				$updated = sprintf($updated,
+					esc_attr( get_the_modified_date( 'c' ) ),
+					esc_html( get_the_modified_date() )
+				);
+				printf(
+					'<span class="modified-on">Modified on <a href="%1$s" title="%2$s" rel="bookmark">%3$s</a></span>%4$s',
+					esc_url( get_permalink() ),
+					esc_attr( get_the_time() ),
+					$updated,
+					$get_sep('modified_date', $show, $separator, $echosep)
+				);
+			}
+		}
+		
         if ( (isset($show['comments']) && $show['comments'] == true) && (! post_password_required() && comments_open() )) {
             ?>
             <span class="comments-link"><?php comments_popup_link( __( 'Leave a comment ', 'clearcontent' ), __( '1 Comment ', 'clearcontent' ), __( '% Comments ', 'clearcontent' ) ); echo $get_sep('comments', $show, $separator, $echosep);?></span>

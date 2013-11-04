@@ -11,7 +11,7 @@
 
 		<?php if ( 'post' == get_post_type() ) : ?>
 		<div class="entry-meta">
-			<?php clearcontent_post_meta( array( 'byline' => True, 'post_date' => True, 'comments' => False ) ); ?>
+			<?php clearcontent_post_meta( array( 'byline' => True, 'post_date' => True, 'modified_date' => True, 'comments' => False ) ); ?>
 		</div><!-- .entry-meta -->
 		<?php endif; ?>
 	</header><!-- .entry-header -->
