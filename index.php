@@ -15,7 +15,7 @@ get_header(); ?>
 
 <div id="content" class="container" role="main">
 	<div class="row">
-		<div id="primary" class="col-xs-12 col-sm-9">
+		<div id="primary" class="col-xs-12 col-sm-8">
 
 			<?php if ( have_posts() ) : ?>
 
@@ -39,9 +39,9 @@ get_header(); ?>
 				<?php get_template_part( 'no-results', 'index' ); ?>
 
 			<?php endif; ?>
-		</div><!-- col-xs-12 col-sm-9 -->
+		</div><!-- col-xs-12 col-sm-8 -->
 		
-		<div class="col-sm-3">
+		<div class="col-sm-4">
 			<?php get_sidebar(); ?>
 		</div>
 	</div> <!-- #row -->

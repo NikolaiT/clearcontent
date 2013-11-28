@@ -331,12 +331,12 @@ endif;
 
 if ( ! function_exists( ' clearcontent_comment_template ') ) :
 /* 
- * Echo a custom comment template aligned and styled with bootstrap 3.1
+ * Echo a custom comment template aligned and styled with bootstrap 3.02
  * The big problem here is, that there is no way in wordpress 3.7.1 to supply
  * specific parameters to certain class attributes within the comment template.
  * There are just no filters for it. (Such as for the form element class attribute).
  * 
- * But in order to stlye forms with bootstrap 3.1 I do need this access.
+ * But in order to stlye forms with bootstrap 3.02 I do need this access.
  * 
  * Approach: Just copy comment_form() function from
  * http://core.trac.wordpress.org/browser/tags/3.7.1/src/wp-includes/comment-template.php#L1509

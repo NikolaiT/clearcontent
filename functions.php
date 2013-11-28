@@ -119,6 +119,9 @@ function clearcontent_scripts() {
         
 	/* For the slideshow that is implemented and printed into the site with clearcontent_header_slider() */
 	wp_enqueue_script( 'unslider', get_template_directory_uri() . '/js/unslider.js', array( 'jquery' ) );
+        
+        // Fixing bootstrap menu such that tablets smartphone experience the full bootstrap menu and larger devices have a traditional menu.
+        wp_enqueue_script("bootstrap_navmenu_fix", get_template_directory_uri() . '/js/bootstrap_menu_fix.js', array(), '20131129', true);
 
 	wp_enqueue_script( 'clearcontent-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20130115', true );
 
