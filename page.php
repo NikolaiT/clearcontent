@@ -1,4 +1,4 @@
-<?php
+F<?php
 /**
  * The template for displaying all pages.
  *

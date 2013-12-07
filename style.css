@@ -85,8 +85,8 @@ ul[id="menu-header-menu"] li {
 .navbar-inverse .navbar-nav>.active>a,
 .navbar-inverse .navbar-nav>.active>a:hover,
 .navbar-inverse .navbar-nav>.active>a:focus {
-color: #1770F5;
-background-color: #222;
+    color: #1770F5;
+    background-color: #222;
 }
 
 /* =Social Media icons
