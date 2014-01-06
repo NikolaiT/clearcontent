@@ -213,29 +213,6 @@ if (!function_exists('clearcontent_tracking_code')) :
 
 endif;
 
-if (!function_exists('clearcontent_next_element_by_key')) :
-    /*
-     * Get's the next array element by the key. Returns False if key is not found or the array has no next element. If the 
-     * next element is successfully located, return it (The element may be NULL).
-     */
-
-    function clearcontent_next_element_by_key($key, $array) {
-        if (!in_array($key, array_keys($array)))
-            return False;
-        $next = NULL;
-        foreach ($array as $k => $value) {
-            if ($key == $k) {
-                $next = $value;
-                continue;
-            }
-            if ($next != NULL)
-                return $value;
-        }
-        return False;
-    }
-
-endif;
-
 if (!function_exists('clearcontent_add_comment_author_to_reply_link')) :
     /*
      * Change the comment reply link to use 'Reply to &lt;Author First Name>'

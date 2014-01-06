@@ -10,7 +10,7 @@
             <h1 class="entry-title"><?php the_title(); ?></h1>
 
             <div class="entry-meta">
-                <?php clearcontent_post_meta(array('byline' => True, 'post_date' => True)); ?>
+                <?php clearcontent_post_meta(array('byline', 'post_date', 'modified_date')); ?>
             </div><!-- .entry-meta -->
         </header><!-- .entry-header -->
 

@@ -11,7 +11,7 @@
 
             <?php if ('post' == get_post_type()) : ?>
                 <div class="entry-meta">
-                    <?php clearcontent_post_meta(array('byline' => True, 'post_date' => True, 'modified_date' => True, 'comments' => False)); ?>
+                    <?php clearcontent_post_meta(array('byline', 'post_date', 'modified_date')); ?>
                 </div><!-- .entry-meta -->
             <?php endif; ?>
         </header><!-- .entry-header -->
@@ -34,10 +34,10 @@
 
         <footer class="entry-meta">
 
-            <?php clearcontent_post_meta(array('posted-in' => True, 'tags' => True), $echosep = false); ?>
+            <?php clearcontent_post_meta(array('posted-in', 'tags')); ?>
 
             <div class="clearfix">
-                <?php clearcontent_post_meta(array('byline' => False, 'post_date' => False, 'comments' => True), $echosep = False); ?>
+                <?php clearcontent_post_meta(array('comments')); ?>
             </div>
 
             <?php edit_post_link(__('Edit', 'clearcontent'), '<span class="edit-link">', '</span>'); ?>

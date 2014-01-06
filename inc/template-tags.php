@@ -70,40 +70,40 @@ if (!function_exists('clearcontent_comment')) :
 
             <li id="comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
                 <div class="comment-body">
-                <?php _e('Pingback:', 'clearcontent'); ?> <?php comment_author_link(); ?> <?php edit_comment_link(__('Edit', 'clearcontent'), '<span class="edit-link">', '</span>'); ?>
+                    <?php _e('Pingback:', 'clearcontent'); ?> <?php comment_author_link(); ?> <?php edit_comment_link(__('Edit', 'clearcontent'), '<span class="edit-link">', '</span>'); ?>
                 </div>
 
-        <?php else : ?>
+            <?php else : ?>
 
             <li id="comment-<?php comment_ID(); ?>" <?php comment_class(empty($args['has_children']) ? '' : 'parent' ); ?>>
                 <article id="div-comment-<?php comment_ID(); ?>" class="comment-body">
                     <footer class="comment-meta">
                         <div class="comment-author vcard">
-            <?php if (0 != $args['avatar_size']) echo get_avatar($comment, $args['avatar_size']); ?>
-            <?php printf(__('%s <span class="says">says:</span>', 'clearcontent'), sprintf('<cite class="fn">%s</cite>', get_comment_author_link())); ?>
+                            <?php if (0 != $args['avatar_size']) echo get_avatar($comment, $args['avatar_size']); ?>
+                            <?php printf(__('%s <span class="says">says:</span>', 'clearcontent'), sprintf('<cite class="fn">%s</cite>', get_comment_author_link())); ?>
                         </div><!-- .comment-author -->
 
                         <div class="comment-metadata">
                             <a href="<?php echo esc_url(get_comment_link($comment->comment_ID)); ?>">
                                 <time datetime="<?php comment_time('c'); ?>">
-                            <?php printf(_x('%1$s at %2$s', '1: date, 2: time', 'clearcontent'), get_comment_date(), get_comment_time()); ?>
+                                    <?php printf(_x('%1$s at %2$s', '1: date, 2: time', 'clearcontent'), get_comment_date(), get_comment_time()); ?>
                                 </time>
                             </a>
-                        <?php edit_comment_link(__('Edit', 'clearcontent'), '<span class="edit-link">', '</span>'); ?>
+                            <?php edit_comment_link(__('Edit', 'clearcontent'), '<span class="edit-link">', '</span>'); ?>
                         </div><!-- .comment-metadata -->
 
                         <?php if ('0' == $comment->comment_approved) : ?>
                             <p class="comment-awaiting-moderation"><?php _e('Your comment is awaiting moderation.', 'clearcontent'); ?></p>
-            <?php endif; ?>
+                        <?php endif; ?>
                     </footer><!-- .comment-meta -->
 
                     <div class="comment-content">
-            <?php comment_text(); ?>
+                        <?php comment_text(); ?>
                     </div><!-- .comment-content -->
 
                     <div class="reply">
-            <?php comment_reply_link(array_merge($args, array('add_below' => 'div-comment', 'depth' => $depth, 'max_depth' => $args['max_depth'])));
-            ?>
+                        <?php comment_reply_link(array_merge($args, array('add_below' => 'div-comment', 'depth' => $depth, 'max_depth' => $args['max_depth'])));
+                        ?>
 
                     </div><!-- .reply -->
                 </article><!-- .comment-body -->
@@ -139,7 +139,7 @@ if (!function_exists('clearcontent_comment')) :
                 'post_mime_type' => 'image',
                 'order' => 'ASC',
                 'orderby' => 'menu_order ID'
-                    ));
+            ));
 
             // If there is more than 1 attachment in a gallery...
             if (count($attachment_ids) > 1) {
@@ -168,280 +168,272 @@ if (!function_exists('clearcontent_comment')) :
     if (!function_exists('clearcontent_post_meta')) :
 
         /**
-         * Prints HTML with meta information for the current post-date/time and author, as well as a link to the comments.
+         * Prints HTML with meta information for the current post-date/time and author, as well as a link to the comments and the tags.
          * 
-         * @param array $show Elements are boolean arguments which indicate which entity is echoed.
-         *  If $show is not set, all entities are echoed. $show has currently the following elements:
-         *  $show = array( 'byline' => True, 'post_date' => True, 'comments' => True, 'posted-in' => True, 'tags' => True)
+         * The function is designed in such a way that each entity of the meta information may be added depending on the parameters set.
          * 
-         * If $echosep if true, echo a separator.
+         * Example: clearcontent_post_meta($show = array('byline', 'post_date', 'modified_date', 'comments', 'posted-in', 'tags'));
+         * If the function is called like above, the keywords indicate in exactly the order they are placed in the array which meta information 
+         * should be printed.
          * 
-         * By the way. This function is completely broken and totally rubbish. It's a fucking pain in the ass and 
-         * demonstrates how I fucking suck at PHP, how PHP fucking sucks and how everything that mangles HTML, CSS and a programming
-         * language together fucking sucks.
+         * @param array $show Elements are keys which indicate which entity is echoed in exactly the order as supplied.
+         *  to the argument.
+         * @param boolean $echosep If $echosep if true, echo a separator.
+         * @return None This function does not have a return value.
+         *
          */
-        function clearcontent_post_meta($show = array('byline' => False, 'post_date' => False, 'modified_date' => False, 'comments' => False, 'posted-in' => False, 'tags' => False), $echosep = False) {
-
-            /* Echo only a seperator if the next entity is printed out. */
-            $separator = '-';
-            $get_sep = create_function('$key, $array, $sep, $echosep', '$val = clearcontent_next_element_by_key($key, $array); if($val || $echosep) { return "<span class=\"separator\">$sep</span>"; }');
-
-            if (isset($show['byline']) && $show['byline'] == true) {
-                printf('<span class="byline">By <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a>%4$s</span></span>', esc_url(get_author_posts_url(get_the_author_meta('ID'))), esc_attr(sprintf(__('View all posts by %s', 'clearcontent'), get_the_author())), esc_html(get_the_author()), $get_sep('byline', $show, $separator, $echosep)
+        function clearcontent_post_meta($show = array('byline', 'post_date', 'modified_date', 'comments', 'posted-in', 'tags'), $echosep = False) {
+            $meta_data = array();
+        
+            if (in_array('byline', $show)) {
+                $meta_data[] = sprintf('<span class="byline">By <span class="author vcard"><a class="url fn n" href="%1$s" title="%2$s">%3$s</a></span></span>',
+                    esc_url(get_author_posts_url(get_the_author_meta('ID'))),
+                    esc_attr(sprintf(__('View all posts by %s', 'clearcontent'),
+                    get_the_author())), esc_html(get_the_author())
                 );
             }
 
-            if (isset($show['post_date']) && $show['post_date'] == true) {
+            if (in_array('post_date', $show)) {
                 $time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time>';
                 $time_string = sprintf($time_string, esc_attr(get_the_date('c')), esc_html(get_the_date())
                 );
 
-                printf(
-                        '<span class="posted-on">Posted on <a href="%1$s" title="%2$s" rel="bookmark">%3$s</a></span>%4$s', esc_url(get_permalink()), esc_attr(get_the_time()), $time_string, $get_sep('post_date', $show, $separator, $echosep)
+                list($year, $month, $day) = explode(' ', get_the_date('Y m d'));
+                $meta_data[] = sprintf(
+                    '<span class="posted-on">Posted on <a href="%1$s" title="%2$s" rel="bookmark">%3$s</a></span>',
+                    esc_url(get_day_link($year, $month, $day)), esc_attr(get_the_time()),
+                    $time_string
                 );
             }
 
-            if (isset($show['modified_date']) && $show['modified_date'] == true) {
-                if (get_the_time('U') !== get_the_modified_time('U')) {
+            if (in_array('modified_date', $show)) {
+                if (get_the_time('U') !== get_the_modified_time('U') && !empty(get_the_modified_time())) {
                     $updated = '<time class="updated" datetime="%1$s">%2$s</time>';
                     $updated = sprintf($updated, esc_attr(get_the_modified_date('c')), esc_html(get_the_modified_date())
                     );
-                    printf(
-                            '<span class="modified-on">Modified on <a href="%1$s" title="%2$s" rel="bookmark">%3$s</a></span>%4$s', esc_url(get_permalink()), esc_attr(get_the_time()), $updated, $get_sep('modified_date', $show, $separator, $echosep)
+                    $meta_data[] = sprintf(
+                        '<span class="modified-on">Modified on <a href="%1$s" title="%2$s" rel="bookmark">%3$s</a></span>',
+                        esc_url(get_permalink()), esc_attr(get_the_time()),
+                        $updated
                     );
                 }
             }
 
-            if ((isset($show['comments']) && $show['comments'] == true) && (!post_password_required() && comments_open() )) {
-                ?>
-                <span class="comments-link"><?php comments_popup_link(__('Leave a comment ', 'clearcontent'), __('1 Comment ', 'clearcontent'), __('% Comments ', 'clearcontent'));
-            echo $get_sep('comments', $show, $separator, $echosep); ?></span>
-                <?php
+            if ((in_array('comments', $show)) && (!post_password_required() && comments_open() )) {
+                $meta_data[] = sprintf('<span class="comments-link">%1$s</span>',
+                    comments_popup_link(__('Leave a comment ', 'clearcontent'), __('1 Comment ', 'clearcontent'), __('% Comments ', 'clearcontent'))
+                );
             }
 
             /* The next two only when this is a real post (Not search page or other) */
-            if ('post' == get_post_type()) :
+            if ('post' == get_post_type()) {
 
-                if (isset($show['posted-in']) && $show['posted-in'] == true) {
+                if (in_array('posted', $show)) {
                     /* translators: used between list items, there is a space after the comma */
                     $categories_list = get_the_category_list(__(', ', 'clearcontent'));
-                    if ($categories_list && clearcontent_categorized_blog()) :
-                        ?>
-                        <span class="cat-links">
-                        <?php printf(__('Posted in %1$s', 'clearcontent'), $categories_list);
-                        echo $get_sep('posted-in', $show, $separator, $echosep); ?>
-                        </span>
-                    <?php
-                    endif; // End if categories
+                    if ($categories_list && clearcontent_categorized_blog()) {
+                        $meta_data[] = sprintf('<span class="cat-links">%1$s</span>',"Posted in $categories_list");
+                    }
                 }
 
-                if (isset($show['tags']) && $show['tags'] == true) {
+                if (in_array('tags', $show)) {
                     /* translators: used between list items, there is a space after the comma */
                     $tags_list = get_the_tag_list('', __(', ', 'clearcontent'));
-                    ?>
-                    <span class="tags-links">
-                        <?php
-                        if ($tags_list) :
-                            printf(__('Tagged %1$s', 'clearcontent'), $tags_list);
-                            echo $get_sep('tags', $show, $separator, $echosep);
-                        else :
-                            // Shouldn't happen often
-                            printf(__('No tags yet :(', 'clearcontent'), $tags_list);
-                        endif;
-                        ?>
-                    </span>
-                        <?php
-                    }
+                    $meta_data[] = sprintf('<span class="tags-links">%1$s</span>',
+                            $tags_list ? sprintf(__('Tagged %1$s', 'clearcontent'), $tags_list) : sprintf(__('No tags yet :(', 'clearcontent'), $tags_list));
+                }
 
-                endif; // End if 'post' == get_post_type()
             }
-
-        endif;
-
-        /**
-         * Returns true if a blog has more than 1 category
-         */
-        function clearcontent_categorized_blog() {
-            if (false === ( $all_the_cool_cats = get_transient('all_the_cool_cats') )) {
-                // Create an array of all the categories that are attached to posts
-                $all_the_cool_cats = get_categories(array(
-                    'hide_empty' => 1,
-                        ));
-
-                // Count the number of categories that are attached to the posts
-                $all_the_cool_cats = count($all_the_cool_cats);
-
-                set_transient('all_the_cool_cats', $all_the_cool_cats);
-            }
-
-            if ('1' != $all_the_cool_cats) {
-                // This blog has more than 1 category so clearcontent_categorized_blog should return true
-                return true;
-            } else {
-                // This blog has only 1 category so clearcontent_categorized_blog should return false
-                return false;
-            }
+            
+            printf(implode($meta_data, '<span class="separator">-</span>'));
         }
 
-        if (!function_exists(' clearcontent_social_media_icons ')) :
-            /* Echo social media icons into the header of the theme 
-             * 
+    endif;
+
+    /**
+     * Returns true if a blog has more than 1 category
+     */
+    function clearcontent_categorized_blog() {
+        if (false === ( $all_the_cool_cats = get_transient('all_the_cool_cats') )) {
+            // Create an array of all the categories that are attached to posts
+            $all_the_cool_cats = get_categories(array(
+                'hide_empty' => 1,
+            ));
+
+            // Count the number of categories that are attached to the posts
+            $all_the_cool_cats = count($all_the_cool_cats);
+
+            set_transient('all_the_cool_cats', $all_the_cool_cats);
+        }
+
+        if ('1' != $all_the_cool_cats) {
+            // This blog has more than 1 category so clearcontent_categorized_blog should return true
+            return true;
+        } else {
+            // This blog has only 1 category so clearcontent_categorized_blog should return false
+            return false;
+        }
+    }
+
+    if (!function_exists(' clearcontent_social_media_icons ')) :
+        /* Echo social media icons into the header of the theme 
+         * 
+         */
+
+        function clearcontent_social_media_icons() {
+            $icon_path = get_template_directory_uri() . '/pics/64_64/';
+
+            /*
+             * Every key represents a slug which determines the kind of social plugin.
+             * Then the value is an array with the following arguments:
+             * [1] icon image when not hoving over
+             * [2] icon image when hoving over
+             * [3] url to the social media profile.
+             * It must have an length of 3.
              */
-
-            function clearcontent_social_media_icons() {
-                $icon_path = get_template_directory_uri() . '/pics/64_64/';
-
-                /*
-                 * Every key represents a slug which determines the kind of social plugin.
-                 * Then the value is an array with the following arguments:
-                 * [1] icon image when not hoving over
-                 * [2] icon image when hoving over
-                 * [3] url to the social media profile.
-                 * It must have an length of 3.
-                 */
-                $icon_data = array(
-                    'Github' => array($icon_path . 'github.png', $icon_path . 'github_x.png', 'https://github.com/NikolaiT'),
-                    'Twitter' => array($icon_path . 'twitter.png', $icon_path . 'twitter_x.png', 'https://twitter.com/incolumitas_'),
-                    'Rss' => array($icon_path . 'rss.png', $icon_path . 'rss_x.png', get_bloginfo('url')),
-                    'Email' => array($icon_path . 'email.png', $icon_path . 'email_x.png', get_bloginfo('url'))
-                );
-                /* Clean recursively */
-                $cleaner = function ($item) {
-                    return clearcontent_esc_deep($item);
-                };
-                $icon_data = array_map($cleaner, $icon_data);
-                ?>
+            $icon_data = array(
+                'Github' => array($icon_path . 'github.png', $icon_path . 'github_x.png', 'https://github.com/NikolaiT'),
+                'Twitter' => array($icon_path . 'twitter.png', $icon_path . 'twitter_x.png', 'https://twitter.com/incolumitas_'),
+                'Rss' => array($icon_path . 'rss.png', $icon_path . 'rss_x.png', get_bloginfo('url')),
+                'Email' => array($icon_path . 'email.png', $icon_path . 'email_x.png', get_bloginfo('url'))
+            );
+            /* Clean recursively */
+            $cleaner = function ($item) {
+                return clearcontent_esc_deep($item);
+            };
+            $icon_data = array_map($cleaner, $icon_data);
+            ?>
             <div class="header-icons">
-            <?php foreach ($icon_data as $key => $value) : ?>
+                <?php foreach ($icon_data as $key => $value) : ?>
                     <a title="Follow Nikolai Tschacher on <?php esc_html_e($key); ?>" href="<?php echo $value[2]; ?>" target="_blank">
                         <img src="<?php echo $value[0]; ?>" onmouseover="this.src = '<?php echo $value[1]; ?>'" onmouseout="this.src = '<?php echo $value[0]; ?>'"width="36px" alt="Follow me on <?php echo $key; ?>"></a>
             <?php endforeach; ?>
             </div>
 
-                <?php
-            }
+            <?php
+        }
 
-        endif;
+    endif;
 
 
-        if (!function_exists(' clearcontent_comment_template ')) :
-            /*
-             * Echo a custom comment template aligned and styled with bootstrap 3.02
-             * The big problem here is, that there is no way in wordpress 3.7.1 to supply
-             * specific parameters to certain class attributes within the comment template.
-             * There are just no filters for it. (Such as for the form element class attribute).
-             * 
-             * But in order to stlye forms with bootstrap 3.02 I do need this access.
-             * 
-             * Approach: Just copy comment_form() function from
-             * http://core.trac.wordpress.org/browser/tags/3.7.1/src/wp-includes/comment-template.php#L1509
-             * and modify it to our liking. Thats definitely not nice, but how else?
-             * 
-             */
+    if (!function_exists(' clearcontent_comment_template ')) :
+        /*
+         * Echo a custom comment template aligned and styled with bootstrap 3.02
+         * The big problem here is, that there is no way in wordpress 3.7.1 to supply
+         * specific parameters to certain class attributes within the comment template.
+         * There are just no filters for it. (Such as for the form element class attribute).
+         * 
+         * But in order to stlye forms with bootstrap 3.02 I do need this access.
+         * 
+         * Approach: Just copy comment_form() function from
+         * http://core.trac.wordpress.org/browser/tags/3.7.1/src/wp-includes/comment-template.php#L1509
+         * and modify it to our liking. Thats definitely not nice, but how else?
+         * 
+         */
+
+        /**
+         * Output a complete commenting form for use within a template.
+         *
+         * Most strings and form fields may be controlled through the $args array passed
+         * into the function, while you may also choose to use the comment_form_default_fields
+         * filter to modify the array of default fields if you'd just like to add a new
+         * one or remove a single field. All fields are also individually passed through
+         * a filter of the form comment_form_field_$name where $name is the key used
+         * in the array of fields.
+         *
+         * @since 3.0.0
+         *
+         * @param array       $args {
+         *     Optional. Default arguments and form fields to override.
+         *
+         *     @type array 'fields' {
+         *         Default comment fields, filterable by default via the 'comment_form_default_fields' hook.
+         *
+         *         @type string 'author' The comment author field HTML.
+         *         @type string 'email'  The comment author email field HTML.
+         *         @type string 'url'    The comment author URL field HTML.
+         *     }
+         *     @type string 'comment_field'        The comment textarea field HTML.
+         *     @type string 'must_log_in'          HTML element for a 'must be logged in to comment' message.
+         *     @type string 'logged_in_as'         HTML element for a 'logged in as <user>' message.
+         *     @type string 'comment_notes_before' HTML element for a message displayed before the comment form.
+         *                                         Default 'Your email address will not be published.'.
+         *     @type string 'comment_notes_after'  HTML element for a message displayed after the comment form.
+         *                                         Default 'You may use these HTML tags and attributes ...'.
+         *     @type string 'id_form'              The comment form element id attribute. Default 'commentform'.
+         *     @type string 'id_submit'            The comment submit element id attribute. Default 'submit'.
+         *     @type string 'title_reply'          The translatable 'reply' button label. Default 'Leave a Reply'.
+         *     @type string 'title_reply_to'       The translatable 'reply-to' button label. Default 'Leave a Reply to %s',
+         *                                         where %s is the author of the comment being replied to.
+         *     @type string 'cancel_reply_link'    The translatable 'cancel reply' button label. Default 'Cancel reply'.
+         *     @type string 'label_submit'         The translatable 'submit' button label. Default 'Post a comment'.
+         *     @type string 'format'               The comment form format. Default 'xhtml'. Accepts 'xhtml', 'html5'.
+         * }
+         * @param int|WP_Post $post_id Optional. Post ID or WP_Post object to generate the form for. Default current post.
+         */
+        function clearcontent_comment_form($args = array(), $post_id = null) {
+            if (null === $post_id)
+                $post_id = get_the_ID();
+            else
+                $id = $post_id;
+
+            $commenter = wp_get_current_commenter();
+            $user = wp_get_current_user();
+            $user_identity = $user->exists() ? $user->display_name : '';
+
+            $args = wp_parse_args($args);
+            if (!isset($args['format']))
+                $args['format'] = current_theme_supports('html5', 'comment-form') ? 'html5' : 'xhtml';
+
+            $req = get_option('require_name_email');
+            $aria_req = ( $req ? " aria-required='true'" : '' );
+            $html5 = 'html5' === $args['format'];
+            $fields = array(
+                'author' => '<div class="form-group"><label for="author" class="col-sm-2 control-label comment-form-author">' . __('Name') . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
+                '<div class="col-sm-10"><input id="author" class="form-control" name="author" type="text" value="' . esc_attr($commenter['comment_author']) . '" size="30"' . $aria_req . ' /></div></div>',
+                'email' => '<div class="form-group"><label for="email" class="col-sm-2 control-label comment-form-email">' . __('Email') . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
+                '<div class="col-sm-10"><input id="email" class="form-control" name="email" ' . ( $html5 ? 'type="email"' : 'type="text"' ) . ' value="' . esc_attr($commenter['comment_author_email']) . '" size="30"' . $aria_req . ' /></div></div>',
+                'url' => '<div class="form-group"><label for="url" class="col-sm-2 control-label comment-form-url">' . __('Website') . '</label> ' .
+                '<div class="col-sm-10"><input id="url" class="form-control" name="url" ' . ( $html5 ? 'type="url"' : 'type="text"' ) . ' value="' . esc_attr($commenter['comment_author_url']) . '" size="30" /></div></div>',
+            );
+
+            $required_text = sprintf(' ' . __('Required fields are marked %s'), '<span class="required">*</span>');
 
             /**
-             * Output a complete commenting form for use within a template.
-             *
-             * Most strings and form fields may be controlled through the $args array passed
-             * into the function, while you may also choose to use the comment_form_default_fields
-             * filter to modify the array of default fields if you'd just like to add a new
-             * one or remove a single field. All fields are also individually passed through
-             * a filter of the form comment_form_field_$name where $name is the key used
-             * in the array of fields.
+             * Filter the default comment form fields.
              *
              * @since 3.0.0
              *
-             * @param array       $args {
-             *     Optional. Default arguments and form fields to override.
-             *
-             *     @type array 'fields' {
-             *         Default comment fields, filterable by default via the 'comment_form_default_fields' hook.
-             *
-             *         @type string 'author' The comment author field HTML.
-             *         @type string 'email'  The comment author email field HTML.
-             *         @type string 'url'    The comment author URL field HTML.
-             *     }
-             *     @type string 'comment_field'        The comment textarea field HTML.
-             *     @type string 'must_log_in'          HTML element for a 'must be logged in to comment' message.
-             *     @type string 'logged_in_as'         HTML element for a 'logged in as <user>' message.
-             *     @type string 'comment_notes_before' HTML element for a message displayed before the comment form.
-             *                                         Default 'Your email address will not be published.'.
-             *     @type string 'comment_notes_after'  HTML element for a message displayed after the comment form.
-             *                                         Default 'You may use these HTML tags and attributes ...'.
-             *     @type string 'id_form'              The comment form element id attribute. Default 'commentform'.
-             *     @type string 'id_submit'            The comment submit element id attribute. Default 'submit'.
-             *     @type string 'title_reply'          The translatable 'reply' button label. Default 'Leave a Reply'.
-             *     @type string 'title_reply_to'       The translatable 'reply-to' button label. Default 'Leave a Reply to %s',
-             *                                         where %s is the author of the comment being replied to.
-             *     @type string 'cancel_reply_link'    The translatable 'cancel reply' button label. Default 'Cancel reply'.
-             *     @type string 'label_submit'         The translatable 'submit' button label. Default 'Post a comment'.
-             *     @type string 'format'               The comment form format. Default 'xhtml'. Accepts 'xhtml', 'html5'.
-             * }
-             * @param int|WP_Post $post_id Optional. Post ID or WP_Post object to generate the form for. Default current post.
+             * @param array $fields The default comment fields.
              */
-            function clearcontent_comment_form($args = array(), $post_id = null) {
-                if (null === $post_id)
-                    $post_id = get_the_ID();
-                else
-                    $id = $post_id;
+            $fields = apply_filters('comment_form_default_fields', $fields);
+            $defaults = array(
+                'fields' => $fields,
+                'comment_field' => '<div class="form-group"><label for="comment" class="col-sm-2 control-label">' . _x('Comment', 'noun') . '</label><div class="col-sm-10"><textarea id="comment" class="form-control" name="comment" cols="45" rows="7" aria-required="true"></textarea></div></div>',
+                'must_log_in' => '<p class="must-log-in">' . sprintf(__('You must be <a href="%s">logged in</a> to post a comment.'), wp_login_url(apply_filters('the_permalink', get_permalink($post_id)))) . '</p>',
+                'logged_in_as' => '<p class="logged-in-as">' . sprintf(__('Logged in as <a href="%1$s">%2$s</a>. <a href="%3$s" title="Log out of this account">Log out?</a>'), get_edit_user_link(), $user_identity, wp_logout_url(apply_filters('the_permalink', get_permalink($post_id)))) . '</p>',
+                'comment_notes_before' => '<p class="comment-notes">' . __('Your email address will not be published.') . ( $req ? $required_text : '' ) . '</p>',
+                'comment_notes_after' => '<p class="form-allowed-tags">' . sprintf(__('You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes: %s'), ' <pre><code>' . allowed_tags() . '</code></pre>') . '</p>',
+                'id_form' => 'commentform',
+                'id_submit' => 'submit',
+                'title_reply' => __('Leave a Reply'),
+                'title_reply_to' => __('Leave a Reply to %s'),
+                'cancel_reply_link' => __('Cancel reply'),
+                'label_submit' => __('Post Comment'),
+                'format' => 'xhtml',
+            );
 
-                $commenter = wp_get_current_commenter();
-                $user = wp_get_current_user();
-                $user_identity = $user->exists() ? $user->display_name : '';
-
-                $args = wp_parse_args($args);
-                if (!isset($args['format']))
-                    $args['format'] = current_theme_supports('html5', 'comment-form') ? 'html5' : 'xhtml';
-
-                $req = get_option('require_name_email');
-                $aria_req = ( $req ? " aria-required='true'" : '' );
-                $html5 = 'html5' === $args['format'];
-                $fields = array(
-                    'author' => '<div class="form-group"><label for="author" class="col-sm-2 control-label comment-form-author">' . __('Name') . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
-                    '<div class="col-sm-10"><input id="author" class="form-control" name="author" type="text" value="' . esc_attr($commenter['comment_author']) . '" size="30"' . $aria_req . ' /></div></div>',
-                    'email' => '<div class="form-group"><label for="email" class="col-sm-2 control-label comment-form-email">' . __('Email') . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
-                    '<div class="col-sm-10"><input id="email" class="form-control" name="email" ' . ( $html5 ? 'type="email"' : 'type="text"' ) . ' value="' . esc_attr($commenter['comment_author_email']) . '" size="30"' . $aria_req . ' /></div></div>',
-                    'url' => '<div class="form-group"><label for="url" class="col-sm-2 control-label comment-form-url">' . __('Website') . '</label> ' .
-                    '<div class="col-sm-10"><input id="url" class="form-control" name="url" ' . ( $html5 ? 'type="url"' : 'type="text"' ) . ' value="' . esc_attr($commenter['comment_author_url']) . '" size="30" /></div></div>',
-                );
-
-                $required_text = sprintf(' ' . __('Required fields are marked %s'), '<span class="required">*</span>');
-
-                /**
-                 * Filter the default comment form fields.
-                 *
-                 * @since 3.0.0
-                 *
-                 * @param array $fields The default comment fields.
-                 */
-                $fields = apply_filters('comment_form_default_fields', $fields);
-                $defaults = array(
-                    'fields' => $fields,
-                    'comment_field' => '<div class="form-group"><label for="comment" class="col-sm-2 control-label">' . _x('Comment', 'noun') . '</label><div class="col-sm-10"><textarea id="comment" class="form-control" name="comment" cols="45" rows="7" aria-required="true"></textarea></div></div>',
-                    'must_log_in' => '<p class="must-log-in">' . sprintf(__('You must be <a href="%s">logged in</a> to post a comment.'), wp_login_url(apply_filters('the_permalink', get_permalink($post_id)))) . '</p>',
-                    'logged_in_as' => '<p class="logged-in-as">' . sprintf(__('Logged in as <a href="%1$s">%2$s</a>. <a href="%3$s" title="Log out of this account">Log out?</a>'), get_edit_user_link(), $user_identity, wp_logout_url(apply_filters('the_permalink', get_permalink($post_id)))) . '</p>',
-                    'comment_notes_before' => '<p class="comment-notes">' . __('Your email address will not be published.') . ( $req ? $required_text : '' ) . '</p>',
-                    'comment_notes_after' => '<p class="form-allowed-tags">' . sprintf(__('You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes: %s'), ' <pre><code>' . allowed_tags() . '</code></pre>') . '</p>',
-                    'id_form' => 'commentform',
-                    'id_submit' => 'submit',
-                    'title_reply' => __('Leave a Reply'),
-                    'title_reply_to' => __('Leave a Reply to %s'),
-                    'cancel_reply_link' => __('Cancel reply'),
-                    'label_submit' => __('Post Comment'),
-                    'format' => 'xhtml',
-                );
-
-                /**
-                 * Filter the comment form default arguments.
-                 *
-                 * Use 'comment_form_default_fields' to filter the comment fields.
-                 *
-                 * @since 3.0.0
-                 *
-                 * @param array $defaults The default comment form arguments.
-                 */
-                $args = wp_parse_args($args, apply_filters('comment_form_defaults', $defaults));
-                ?>
+            /**
+             * Filter the comment form default arguments.
+             *
+             * Use 'comment_form_default_fields' to filter the comment fields.
+             *
+             * @since 3.0.0
+             *
+             * @param array $defaults The default comment form arguments.
+             */
+            $args = wp_parse_args($args, apply_filters('comment_form_defaults', $defaults));
+            ?>
             <?php if (comments_open($post_id)) : ?>
                 <?php
                 /**
@@ -453,26 +445,26 @@ if (!function_exists('clearcontent_comment')) :
                 ?>
                 <div id="respond" class="comment-respond">
                     <h3 id="reply-title" class="comment-reply-title"><?php comment_form_title($args['title_reply'], $args['title_reply_to']); ?> <small><?php cancel_comment_reply_link($args['cancel_reply_link']); ?></small></h3>
-                <?php if (get_option('comment_registration') && !is_user_logged_in()) : ?>
-                    <?php echo $args['must_log_in']; ?>
-                    <?php
-                    /**
-                     * Fires after the HTML-formatted 'must log in after' message in the comment form.
-                     *
-                     * @since 3.0.0
-                     */
-                    do_action('comment_form_must_log_in_after');
-                    ?>
-                    <?php else : ?>
-                        <form action="<?php echo site_url('/wp-comments-post.php'); ?>" method="post" id="<?php echo esc_attr($args['id_form']); ?>" class="comment-form form-horizontal" role="form" <?php echo $html5 ? ' novalidate' : ''; ?>>
+                    <?php if (get_option('comment_registration') && !is_user_logged_in()) : ?>
+                        <?php echo $args['must_log_in']; ?>
                         <?php
                         /**
-                         * Fires at the top of the comment form, inside the <form> tag.
+                         * Fires after the HTML-formatted 'must log in after' message in the comment form.
                          *
                          * @since 3.0.0
                          */
-                        do_action('comment_form_top');
+                        do_action('comment_form_must_log_in_after');
                         ?>
+                        <?php else : ?>
+                        <form action="<?php echo site_url('/wp-comments-post.php'); ?>" method="post" id="<?php echo esc_attr($args['id_form']); ?>" class="comment-form form-horizontal" role="form" <?php echo $html5 ? ' novalidate' : ''; ?>>
+                            <?php
+                            /**
+                             * Fires at the top of the comment form, inside the <form> tag.
+                             *
+                             * @since 3.0.0
+                             */
+                            do_action('comment_form_top');
+                            ?>
                             <?php if (is_user_logged_in()) : ?>
                                 <?php
                                 /**
@@ -537,55 +529,55 @@ if (!function_exists('clearcontent_comment')) :
                              */
                             echo apply_filters('comment_form_field_comment', $args['comment_field']);
                             ?>
-                            <?php echo $args['comment_notes_after']; ?>
+                <?php echo $args['comment_notes_after']; ?>
                             <div class="form-group">
                                 <div class="col-sm-10">
                                     <p class="form-submit">
                                         <input name="submit" type="submit" class="btn btn-primary" id="<?php echo esc_attr($args['id_submit']); ?>" value="<?php echo esc_attr($args['label_submit']); ?>" />
-                            <?php comment_id_fields($post_id); ?>
+                <?php comment_id_fields($post_id); ?>
                                     </p>
                                 </div>
                             </div>
+                            <?php
+                            /**
+                             * Fires at the bottom of the comment form, inside the closing </form> tag.
+                             *
+                             * @since 1.5.2
+                             *
+                             * @param int $post_id The post ID.
+                             */
+                            do_action('comment_form', $post_id);
+                            ?>
+                        </form>
+                <?php endif; ?>
+                </div><!-- #respond -->
                 <?php
                 /**
-                 * Fires at the bottom of the comment form, inside the closing </form> tag.
+                 * Fires after the comment form.
                  *
-                 * @since 1.5.2
-                 *
-                 * @param int $post_id The post ID.
+                 * @since 3.0.0
                  */
-                do_action('comment_form', $post_id);
-                ?>
-                        </form>
-                        <?php endif; ?>
-                </div><!-- #respond -->
-                        <?php
-                        /**
-                         * Fires after the comment form.
-                         *
-                         * @since 3.0.0
-                         */
-                        do_action('comment_form_after');
-                    else :
-                        /**
-                         * Fires after the comment form if comments are closed.
-                         *
-                         * @since 3.0.0
-                         */
-                        do_action('comment_form_comments_closed');
-                    endif;
-                }
-
+                do_action('comment_form_after');
+            else :
+                /**
+                 * Fires after the comment form if comments are closed.
+                 *
+                 * @since 3.0.0
+                 */
+                do_action('comment_form_comments_closed');
             endif;
+        }
 
-            if (!function_exists('clearcontent_header_slider')):
-                /*
-                 * This function includes a minimal jquery slideshow into the header of the site. It uses unslider.js in 
-                 * order to achieve this objective. Link to github site: https://github.com/idiot/unslider
-                 */
+    endif;
 
-                function clearcontent_header_slider() {
-                    ?>
+    if (!function_exists('clearcontent_header_slider')):
+        /*
+         * This function includes a minimal jquery slideshow into the header of the site. It uses unslider.js in 
+         * order to achieve this objective. Link to github site: https://github.com/idiot/unslider
+         */
+
+        function clearcontent_header_slider() {
+            ?>
 
             <div class="header-slideshow">
                 <ul>
@@ -606,18 +598,19 @@ if (!function_exists('clearcontent_comment')) :
                     });
                 });
             </script>
-        <?php
+            <?php
+        }
+
+    endif;
+
+    /**
+     * Flush out the transients used in clearcontent_categorized_blog
+     */
+    function clearcontent_category_transient_flusher() {
+        // Like, beat it. Dig?
+        delete_transient('all_the_cool_cats');
     }
 
-endif;
-
-/**
- * Flush out the transients used in clearcontent_categorized_blog
- */
-function clearcontent_category_transient_flusher() {
-    // Like, beat it. Dig?
-    delete_transient('all_the_cool_cats');
-}
-
-add_action('edit_category', 'clearcontent_category_transient_flusher');
-add_action('save_post', 'clearcontent_category_transient_flusher');
+    add_action('edit_category', 'clearcontent_category_transient_flusher');
+    add_action('save_post', 'clearcontent_category_transient_flusher');
+    
