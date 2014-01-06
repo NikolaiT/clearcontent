@@ -6,6 +6,9 @@
  *
  * @package clearcontent
  */
+
+error_reporting(E_ALL);
+
 if (!function_exists('clearcontent_content_nav')) :
 
     /**
@@ -195,19 +198,19 @@ if (!function_exists('clearcontent_comment')) :
 
             if (in_array('post_date', $show)) {
                 $time_string = '<time class="entry-date published" datetime="%1$s">%2$s</time>';
-                $time_string = sprintf($time_string, esc_attr(get_the_date('c')), esc_html(get_the_date())
-                );
+                $time_string = sprintf($time_string, esc_attr(get_the_date('c')), esc_html(get_the_date()));
 
                 list($year, $month, $day) = explode(' ', get_the_date('Y m d'));
                 $meta_data[] = sprintf(
                     '<span class="posted-on">Posted on <a href="%1$s" title="%2$s" rel="bookmark">%3$s</a></span>',
-                    esc_url(get_day_link($year, $month, $day)), esc_attr(get_the_time()),
+                    esc_url(get_day_link($year, $month, $day)),
+                    esc_attr(get_the_time()),
                     $time_string
                 );
             }
 
             if (in_array('modified_date', $show)) {
-                if (get_the_time('U') !== get_the_modified_time('U') && !empty(get_the_modified_time())) {
+                if (get_the_time('U') !== get_the_modified_time('U') && get_the_modified_time()) {
                     $updated = '<time class="updated" datetime="%1$s">%2$s</time>';
                     $updated = sprintf($updated, esc_attr(get_the_modified_date('c')), esc_html(get_the_modified_date())
                     );
