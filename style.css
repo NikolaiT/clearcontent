@@ -234,19 +234,20 @@ span.separator {
 .entry-meta span a {
     text-transform: none;
 }
-.page-content,
-.entry-content,
-.entry-summary {
-    padding: 10px 0;
-}
 
-.entry-content p, .entry-content ul {
+
+.entry-content {
     /* font-family: Georgia,"Times New Roman", Times, serif; */
     font-size: 1em;
     line-height: 1.8em;
     text-align: justify;
     margin: 22px;
 }
+
+.entry-content li, .entry-content ul {
+    margin: 0px 0px 5px 0px;
+}
+
 
 .entry-content h1,
 .entry-content h2,
